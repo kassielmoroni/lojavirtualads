@@ -26,6 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/update/', [ProductsController::class, 'update']);
 
     Route::get('/products/delete/{id}', [ProductsController::class, 'destroy']);
+
+    Route::get('/suppliers/new', function () {
+        return view('suppliers.create');
+    });
 });
 
 require __DIR__ . '/auth.php';
