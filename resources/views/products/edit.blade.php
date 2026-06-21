@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <form class="w-full max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow" action="{{ url('products/update') }}" method="POST">
+    <form class="w-full max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow" action="{{ url('products/update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <!-- campo oculto passando o ID como parâmetro no request -->
         <input type="hidden" name="id" value="{{ $product['id'] }}">
@@ -40,6 +40,32 @@
                 @endforeach
             </select>
             <x-input-error :messages="$errors->get('type_id')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="supplier_id" :value="__('Fornecedor')" />
+            <select id="supplier_id" name="supplier_id" class="block mt-1 w-full rounded border dark:bg-gray-700 dark:text-white p-2">
+                <option value="">Selecione</option>
+                @foreach($suppliers as $supplier)
+                <option value="{{ $supplier->id }}" @selected(old('supplier_id', $product->supplier_id) == $supplier->id)>
+                    {{ $supplier->name }}
+                </option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('supplier_id')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="image" :value="__('Imagem')" />
+
+            @if($product->image)
+            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
+                Imagem atual: {{ $product->image }}
+            </p>
+            @endif
+
+            <input id="image" name="image" type="file" accept="image/*" class="block mt-1 w-full rounded border dark:bg-gray-700 dark:text-white p-2" />
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
         </div>
 
         <div class="mt-6">
